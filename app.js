@@ -20,4 +20,18 @@ function createGrid(gridSideTileNumber) {
 
         container.appendChild(gridTile);
     }
-} 
+}
+
+const btn = document.querySelector(".btn");
+
+btn.onclick = () => {
+    let sideTileNumberInput = 0;
+    
+    while (sideTileNumberInput <= 0 || sideTileNumberInput === null || sideTileNumberInput > 100) {
+        sideTileNumberInput = prompt("Enter the desired number of tiles per side of the new grid!", DEFAULT_GRID_SIDE_TILE_NUMBER);
+        if (sideTileNumberInput <= 0 || sideTileNumberInput > 100) alert("Invalid number. Enter a value in the range of 0 to 100!");
+    }
+
+    container.replaceChildren();
+    createGrid(sideTileNumberInput);
+}
