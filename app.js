@@ -13,22 +13,15 @@ function createGrid(gridSideTileNumber) {
         const gridTile = document.createElement("div");
         
         gridTile.className = "gridTile";
-        gridTile.style.height = `${tileWidth}px`;
-        gridTile.style.width = `${tileWidth}px`;
-        gridTile.style.filter = `brightness(1)`
+        setTileSize(gridTile, tileWidth);
+
         gridTile.addEventListener("mouseenter", () => {
-            console.log(getComputedStyle(gridTile).backgroundColor);
             /* New color is only assigned after first interaction with tile */
             // if (getComputedStyle(gridTile).backgroundColor === "rgb(225, 225, 225)") {
-                let red = generateRandomRgbValue();
-                let green = generateRandomRgbValue();
-                let blue = generateRandomRgbValue();
-                gridTile.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-            // }        
-            
-            // gridTile.className = "markedTile";
-            let currentBrightness = getBrightnessValue(gridTile);
-            let newBrightness = adjustBrightness(currentBrightness);
+                setBackgroundColor(gridTile); 
+            // }
+
+            let newBrightness = adjustBrightness(getBrightness(gridTile));
             gridTile.style.filter = `brightness(${newBrightness})`;
         });
 
@@ -49,8 +42,20 @@ btn.onclick = () => {
     createGrid(sideTileNumberInput);
 }
 
+function setTileSize(element, tileWidth) {
+    element.style.height = `${tileWidth}px`;
+    element.style.width = `${tileWidth}px`;
+}
+
 function generateRandomRgbValue() {
     return Math.floor(Math.random() * 255);
+}
+
+function setBackgroundColor(element) {
+    let red = generateRandomRgbValue();
+    let green = generateRandomRgbValue();
+    let blue = generateRandomRgbValue();
+    element.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
 }
 
 function adjustBrightness(currentBrightness) {
@@ -58,7 +63,7 @@ function adjustBrightness(currentBrightness) {
 }
 
 /* Works specifically when only brightness is applied as a filter value */
-function getBrightnessValue(element) {
+function getBrightness(element) {
     let filterValue = getComputedStyle(element).filter;
     return filterValue.replace("brightness", "").replace("(", "").replace(")", ""); 
 }
