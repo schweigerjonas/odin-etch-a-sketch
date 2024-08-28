@@ -15,13 +15,21 @@ function createGrid(gridSideTileNumber) {
         gridTile.className = "gridTile";
         gridTile.style.height = `${tileWidth}px`;
         gridTile.style.width = `${tileWidth}px`;
+        gridTile.style.filter = `brightness(1)`
         gridTile.addEventListener("mouseenter", () => {
-            let red = generateRandomRgbValue();
-            let green = generateRandomRgbValue();
-            let blue = generateRandomRgbValue();
-            gridTile.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            console.log(getComputedStyle(gridTile).backgroundColor);
+            /* New color is only assigned after first interaction with tile */
+            // if (getComputedStyle(gridTile).backgroundColor === "rgb(225, 225, 225)") {
+                let red = generateRandomRgbValue();
+                let green = generateRandomRgbValue();
+                let blue = generateRandomRgbValue();
+                gridTile.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            // }        
             
             // gridTile.className = "markedTile";
+            let currentBrightness = getBrightnessValue(gridTile);
+            let newBrightness = adjustBrightness(currentBrightness);
+            gridTile.style.filter = `brightness(${newBrightness})`;
         });
 
         container.appendChild(gridTile);
@@ -43,4 +51,14 @@ btn.onclick = () => {
 
 function generateRandomRgbValue() {
     return Math.floor(Math.random() * 255);
+}
+
+function adjustBrightness(currentBrightness) {
+    return currentBrightness -= 0.1;
+}
+
+/* Works specifically when only brightness is applied as a filter value */
+function getBrightnessValue(element) {
+    let filterValue = getComputedStyle(element).filter;
+    return filterValue.replace("brightness", "").replace("(", "").replace(")", ""); 
 }

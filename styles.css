@@ -29,5 +29,6 @@ body {
 }
 
 .markedTile {
-    background-color: grey;
+    /* background-color: grey; */
+    /* filter: brightness(0); */
 }
