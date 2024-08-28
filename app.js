@@ -13,9 +13,15 @@ function createGrid(gridSideTileNumber) {
         const gridTile = document.createElement("div");
         
         gridTile.className = "gridTile";
-        gridTile.setAttribute("style", `width: ${tileWidth}px; height: ${tileWidth}px;`);
+        gridTile.style.height = `${tileWidth}px`;
+        gridTile.style.width = `${tileWidth}px`;
         gridTile.addEventListener("mouseenter", () => {
-            gridTile.className = "markedTile";
+            let red = generateRandomRgbValue();
+            let green = generateRandomRgbValue();
+            let blue = generateRandomRgbValue();
+            gridTile.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            
+            // gridTile.className = "markedTile";
         });
 
         container.appendChild(gridTile);
@@ -23,7 +29,6 @@ function createGrid(gridSideTileNumber) {
 }
 
 const btn = document.querySelector(".btn");
-
 btn.onclick = () => {
     let sideTileNumberInput = 0;
     
@@ -34,4 +39,8 @@ btn.onclick = () => {
 
     container.replaceChildren();
     createGrid(sideTileNumberInput);
+}
+
+function generateRandomRgbValue() {
+    return Math.floor(Math.random() * 255);
 }
